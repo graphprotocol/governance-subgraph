@@ -1,0 +1,52 @@
+specVersion: 0.0.2
+description: The Graph Governance Subgraph
+repository: https://github.com/graphprotocol/governance-subgraph
+schema:
+  file: ./schema.graphql
+dataSources:
+  # - kind: ethereum/contract
+  #   name: GraphGovernance
+  #   network: rinkeby
+  #   source:
+  #     address: "0x47241861A3918eaa9097c0345bb5A91660D7AEE1"
+  #     abi: GraphGovernance
+  #     startBlock: 8262933
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.4
+  #     language: wasm/assemblyscript
+  #     file: ./src/mappings/governance.ts
+  #     entities:
+  #       - Proposal
+  #     abis:
+  #       - name: GraphGovernance
+  #         file: ./abis/GraphGovernance.json
+  #     eventHandlers:
+  #       - event: ProposalCreated(bytes32,bytes32,bytes32,uint8)
+  #         handler: handleProposalCreated
+  #       - event: ProposalUpdated(bytes32,bytes32,bytes32,uint8)
+  #         handler: handleProposalUpdated
+  - kind: ethereum/contract
+    name: CouncilMultisig
+    network: mainnet
+    source:
+      address: "0x48301Fe520f72994d32eAd72E2B6A8447873CF50"
+      abi: GnosisMultisig
+      startBlock: 11422714 
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/mappings/gnosisMultisig.ts
+      entities:
+        - Council
+      abis:
+        - name: GnosisMultisig
+          file: ./abis/GnosisMultisig.json
+      eventHandlers:
+        - event: AddedOwner(address)
+          handler: handleAddedOwner
+        - event: RemovedOwner(address)
+          handler: handleRemovedOwner
+        - event: ChangedThreshold(uint256)
+          handler: handleChangedThreshold
