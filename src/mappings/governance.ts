@@ -1,4 +1,3 @@
-import { BigInt, log } from "@graphprotocol/graph-ts";
 import {
   ProposalCreated,
   ProposalUpdated,

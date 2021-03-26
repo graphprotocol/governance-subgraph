@@ -48,3 +48,5 @@ dataSources:
           handler: handleAddedOwner
         - event: RemovedOwner(address)
           handler: handleRemovedOwner
+        - event: ChangedThreshold(uint256)
+          handler: handleChangedThreshold

@@ -1,43 +1,55 @@
-import { BigInt, log } from "@graphprotocol/graph-ts";
+import { Address, Bytes } from "@graphprotocol/graph-ts";
 import {
   RemovedOwner,
   AddedOwner,
+  GnosisMultisig,
+  ChangedThreshold,
 } from "../types/CouncilMultisig/GnosisMultisig";
 
 import { Council } from "../types/schema";
 
+export function handleAddedOwner(event: AddedOwner): void {
+  let council = createOrLoadCouncil();
 
-export function handleAddedOwner(
-  event: AddedOwner
-): void {
-  // let council = Council.load('1');
-  // if (council == null){
-  //   council = new Council('1')
-  // }
-  // let members = council.members;
+  let members = council.members;
+  members.push(event.params.owner);
 
-  // if (members == null) {
-  //   members = [];
-  // }
-  // let index = destinations.indexOf(event.params.dst);
-
-  // // It was not there before
-  // if (index == -1) {
-  //   // Lets add it in
-  //   if (event.params.allowed) {
-  //     destinations.push(event.params.dst);
-  //   }
-  //   // If false was passed, we do nothing
-  //   // It was there before
-  // } else {
-  //   // We are revoking access
-  //   if (!event.params.allowed) {
-  //     destinations.splice(index, 1);
-  //   }
-  //   // Otherwise do nothing
-  // }
-  // tokenLock.tokenDestinations = destinations;
-  // tokenLock.save();
+  council.members = members;
+  council.save();
 }
 
-export function handleRemovedOwner(): void {}
+export function handleRemovedOwner(event: RemovedOwner): void {
+  let council = createOrLoadCouncil();
+  let members = council.members;
+
+  let index = members.indexOf(event.params.owner);
+  if (index != -1) members = members.splice(index, 1);
+
+  council.members = members;
+  council.save();
+}
+
+export function handleChangedThreshold(event: ChangedThreshold): void {
+  let council = createOrLoadCouncil();
+  council.threshold = event.params.threshold;
+  council.save();
+}
+
+function createOrLoadCouncil(): Council {
+  let council = Council.load("1");
+  if (council == null) {
+    council = new Council("1");
+    let contract = GnosisMultisig.bind(
+      Address.fromString("0x1679A1D1caf1252BA43Fb8Fc17ebF914a0C725AE")
+    );
+    let members: Array<Bytes> = [];
+    let membersAsAddress = contract.getOwners();
+    for (let i = 0; i < membersAsAddress.length; i++) {
+      members.push(membersAsAddress[i] as Bytes);
+    }
+    council.members = members;
+    council.threshold = contract.getThreshold();
+    council.save();
+  }
+  return council as Council;
+}

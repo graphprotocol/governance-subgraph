@@ -15,6 +15,8 @@ type Council @entity {
   id: ID!
   "Members of the council"
   members: [Bytes!]!
+  "Threshold of the multisig"
+  threshold: BigInt!
 }
 
 enum Resolution {
