@@ -1,0 +1,24 @@
+type Proposal @entity {
+  "ID"
+  id: ID!
+  "IPFS Hash of votes"
+  votes: Bytes!
+  "IPFS Hash of metadata"
+  metadata: Bytes!
+  "Result of the proposal"
+  resolution: Resolution!
+  # TODO - the metadata and the votes to be resolved and stored 
+}
+
+type Council @entity {
+  "Set to 1"
+  id: ID!
+  "Members of the council"
+  members: [Bytes!]!
+}
+
+enum Resolution {
+  Null
+  Accepted
+  Rejected
+}

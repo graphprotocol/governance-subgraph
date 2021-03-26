@@ -1,2 +1,2 @@
 # governance-subgraph
-Subgraph for graph governance
+Subgraph for The Graph governance

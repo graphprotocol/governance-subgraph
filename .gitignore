@@ -1,0 +1,10 @@
+# Ignore truffle stuff
+build/
+
+generated/
+node_modules/
+src/types/
+.DS_STORE
+yarn-error.log
+config/addresses.ts
+config/generatedAddresses.json

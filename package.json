@@ -1,0 +1,23 @@
+{
+    "license": "MIT",
+    "scripts": {
+      "codegen": "graph codegen --output-dir src/types/",
+      "build": "graph build",
+      "deploy-testnet": "graph deploy davekaj/graph-governance --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+      "deploy-main": "graph deploy graphprotocol/graph-governance --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+      "lint": "yarn eslint .",
+      "lint-fix": "eslint . --fix",
+      "prettier": "prettier '**/*.ts'",
+      "prettier-write": "prettier --write '**/*.ts'"
+    },
+    "devDependencies": {
+      "@graphprotocol/graph-cli": "0.20.0",
+      "@graphprotocol/graph-ts": "0.20.0",
+      "@typescript-eslint/eslint-plugin": "4.19.0",
+      "@typescript-eslint/parser": "4.19.0",
+      "eslint": "7.22.0",
+      "prettier": "2.2.1",
+      "typescript": "4.2.3"
+    },
+    "dependencies": {}
+  }
